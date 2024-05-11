@@ -6,7 +6,8 @@ export function makePlayer(k: KaboomCtx, posX: number ,posY: number){
     const player = k.make([
         k.sprite("assets",{ anim: "kirbIdle"}),
         k.area({ shape: new k.Rect(k.vec2(4,5.9),8,10)}),
-        k.body,
+        // 2.调用k.body函数的时候忘记使用括号
+        k.body(),
         k.pos(posX * scale , posY * scale),
         k.scale(scale),
         k.doubleJump(10),
@@ -21,6 +22,7 @@ export function makePlayer(k: KaboomCtx, posX: number ,posY: number){
         "player",
     ]);
 
+    
     // 碰撞
     player.onCollide("enemy",async (enemy : GameObj) => {
         if(player.isInhaling && enemy.isInhalable){
@@ -53,18 +55,30 @@ export function makePlayer(k: KaboomCtx, posX: number ,posY: number){
         )
     });
 
+
+
+    
     player.onCollide("exit", () => {
         k.go("level-2");
     });
 
     const inhaleEffect = k.add([
-        k.sprite("assets",{anim: "kirbinhaleEffect"}),
+        // 1.拼写错误
+        k.sprite("assets",{anim: "kirbInhaleEffect"}),
         k.pos(),
         k.scale(scale),
         k.opacity(0),
         "inhaleEffect",
     ]);
 
+
+    
+
+
+
+
+
+    
     const inhaleZone = player.add([
         k.area({shape: new k.Rect(k.vec2(0),20,4)}),
         k.pos(),
